@@ -3,9 +3,9 @@
 
 function KSC_Control2(freq_in, q_in, pregain_in, postgain_in, exc_in)
 
-DEF_CF = 127500; % Default cutoff frequency for the low-pass filter
+DEF_CF = 20000; % Default cutoff frequency for the low-pass filter
 DEF_FR = 700; % Default fr, resonance frequency for the KSC's channel 2
-DEF_Q = 14; % Default quality factor
+DEF_Q = 50; % Default quality factor
 DEF_PRE = 64; % Default pre-gain for the KSC's channel 1
 DEF_POST = 16; % Default post-gain for the KSC's channel 1
 DEF_EXCV = 12.5; % Default excitation voltage for the KSC's channel 1
@@ -14,7 +14,7 @@ DEF_EXCV = 12.5; % Default excitation voltage for the KSC's channel 1
 % to the communication port that the KSC-2 is connected to (see Control
 % Panel > Device Manager)
 DEV1 = findserial(); % KSC - Communication Port
-% DEV1 = 'COM6';
+% DEV1 = 'COM8';
 
 fr = DEF_FR;
 temp = freq_in;
@@ -43,7 +43,7 @@ if (not(isnan(temp)))
 end
 
 configureKSC(DEV1, 1, 'AC', 'GROUND', 'OPERATE'); % configure coupling - AC for mic testing
-configureKSC(DEV1, 2, 'DC', 'GROUND', 'OPERATE'); % configure coupling - AC for mic testing
+configureKSC(DEV1, 2, 'AC', 'GROUND', 'OPERATE'); % configure coupling - AC for mic testing
 pregainKSC(DEV1, 2, 1);
 postgainKSC(DEV1, 2, 1);
 

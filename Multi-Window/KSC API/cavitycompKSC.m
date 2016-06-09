@@ -1,8 +1,8 @@
 %% cavitycompKSC takes the parameters to compensate for the Helmholtz 
-%packaing related resonances 
+% packaing related resonances 
 % cavitycompKSC(DEV, CH, COMPFILT,varargin) 
 % varargin=(COMPFILTFC, COMPFILTQ) 
-%COMOPFILT = 'ON' or 'OFF' - turns on and off cavity compensation
+% COMOPFILT = 'ON' or 'OFF' - turns on and off cavity compensation
 % COMPFILTFC= 500\1000\...\127500 Sets cavity compensation center frequency
 % COMPFILTQ= 1\1.1\...50 input cavity resonance quality factor
 % IF YOU ARE TURNING THE FILTER OFF JUST LET COMPFILT='OFF' and don't add

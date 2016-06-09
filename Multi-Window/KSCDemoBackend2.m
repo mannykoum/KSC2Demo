@@ -15,6 +15,9 @@
 % GUI. The GUI that is passed in KSCDemoBackend2 has to have a togglebutton
 % tagged |startButton| and a static text box tagged |busy|.
 % Multi-window and single-window GUIs are available.
+% 
+% @author Emmanuel Koumandakis (emmanuel@kulite.com)
+
 
 %%%
 function KSCDemoBackend2(handles)
@@ -34,15 +37,17 @@ function KSCDemoBackend2(handles)
 
 DEV1 = findserial(); % KSC - 2 port
 
-sampTime = 1; % duration of a foreground session in seconds
+sampTime = .5; % duration of a foreground session in seconds
 fsampFinal = 51200; % Max sampling rate for NI 9218
 gain=16*64; % gain (post-gain*pre-gain)
 sensitivity = 39.2940; %17.294; % sensitivity in mV/psi
 trigger = 4; % trigger value
+FRES_LIMIT = 600; % if the resonant frequency is found to be below this 
+            % value the test has to run again
 
 s=daq.createSession('ni');
 s.Rate = fsampFinal; % change the sampling rate
-s.DurationInSeconds = 0.2; % Sets scan duration in seconds
+s.DurationInSeconds = 0.1; % Sets scan duration in seconds
 
 addAnalogInputChannel(s,'cDAQ2Mod1','ai0','Voltage');
 addAnalogInputChannel(s,'cDAQ2Mod1','ai1','Voltage');
@@ -68,7 +73,7 @@ while (data<trigger)
     end
     [data, time] = s.startForeground;
 end
-pause(0.1) % take this out
+
 if show==true
     set(handles.busy, 'String', 'Hold for another second...');
     s.DurationInSeconds = sampTime; % Sets scan duration in seconds to the 
@@ -99,17 +104,29 @@ xdft = [xdft1,xdft2];
 if show == true
     search = xdft(:, 1);
     [mres, fres, q, ~, in] = resonanceProperties(search, f);
+    % Instead of using q for the correct quality factor we use the
+    % following default value due to a bug in resonanceProperties.m
+    % TODO: fix resonanceProperties.m and change this
+    DEF_Q = 50;
+    
     % Find the attenuation of the compensated signal at the resonant freq
     attenuation = mres - xdft(in,2);
     
     % Find the index of the second harmonic
-    searchhar = xdft(250:end, 1);
+    searchhar = xdft(250:end, 1); % This hardcoded number might also cause
+                                % problems. 250 is a good number in this
+                                % test but could be different for others
     [~, in2] = max(searchhar);
     in2 = in2 + in;
     %d = [num2str(f(i+199)), ' is the frequency of the signal.']; 
-    cavitycompKSC(DEV1, 2, 'ON', fres, q); % Next compensation based on 
+    cavitycompKSC(DEV1, 2, 'ON', fres, DEF_Q); % Next compensation based on 
     % last signal
-    if fres < 600
+    
+    % NOTE: for this demo the resonator resonates at 700Hz therefore
+    % reading 600 Hz and below means that the test wasn't ran properly and
+    % therefore it should be run again. I don't like this solution but
+    % until I come up with a better way to evaluate the set we can use it.
+    if fres < FRES_LIMIT
         show = false;
         set(handles.busy, 'String', 'Please try again.');
     end
@@ -119,9 +136,7 @@ end
 
 if show == true 
 
-    delete(findall(gcf,'Tag','ann')) % Deletes the previous plot annotation  
-%     PressData=data;
-%     to_base_workspace()
+    delete(findall(gcf,'Tag','ann')) % Deletes the previous plot annotation
 
     % Handle vars
     htime = handles.time;
@@ -130,11 +145,13 @@ if show == true
     hharm = handles.harm;
     
     % ---------------- Data Plot 1/4 ---------------
+    % TODO: Plotting the time data statically as I'm doing below is not 
+    % optimal. Find a good looking data set and plot that maybe.
     p = plot(htime, time(1:301), data(10026:10326,1), time(1:301),...
         data(10026:10326,2));
     p(1).Color = 'r';
     p(2).Color = 'g';
-    %p(2).Color = [55/256 125/256 46/256];
+%     p(2).Color = [55/256 125/256 46/256];
 %     p(2).LineWidth = 1;
     xlabel(htime, 'Time [sec]');
     ylabel(htime, 'Pressure [Pa]');
@@ -148,7 +165,7 @@ if show == true
     sem = semilogx(hfft, f, xdft); % in Pa or dB (SPL) depending on SPLflag
     sem(1).Color = 'r';
     sem(2).Color = 'g';
-    %sem(2).Color = [55/256 125/256 46/256];
+%     sem(2).Color = [55/256 125/256 46/256];
     sem(2).LineWidth = 1;
     xlabel(hfft, 'Frequency [Hz]');
     legend(hfft, 'Amplified Non-compensated Signal',...

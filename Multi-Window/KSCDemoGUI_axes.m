@@ -61,8 +61,14 @@ guidata(hObject, handles);
 % UIWAIT makes KSCDemoGUI_axes wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 if strcmp(get(hObject,'Visible'),'off')
-    KSC_Control2(700, '', '', '', '') % Initial KSC-2 setup
-    
+    try
+        KSC_Control2(700, '', '', '', '') % Initial KSC-2 setup
+    catch ME
+        disp(ME)
+        delete(KSCDemoGUI_button);
+        delete(hObject);
+    end
+    % plot random plots for startup
     plot(handles.time, rand(2))
     darkenAxes(handles.time);
     plot(handles.fft, rand(4))
@@ -92,7 +98,8 @@ function figure1_CloseRequestFcn(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: delete(hObject) closes the figure
-rmappdata(0, 'h_a'); % clean up app data
-rmappdata(0, 'h_b');
+% rmappdata(0, 'h_a'); % clean up app data
+% rmappdata(0, 'h_b');
+
 delete(KSCDemoGUI_button);
 delete(hObject);

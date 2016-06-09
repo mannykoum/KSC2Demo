@@ -1,0 +1,23 @@
+mcc -C -o KSCDemoM -W WinMain:KSCDemoM -T link:exe -d C:\Users\Public\Documents\MATLAB_Projects\KSCDemo\Multi-Window\KSCDemoM\for_testing -R '-logfile,log.txt' -v C:\Users\Public\Documents\MATLAB_Projects\KSCDemo\Multi-Window\KSCDemoGUI_main.m -a 'C:\Users\Public\Documents\MATLAB_Projects\KSCDemo\Multi-Window\Static functions\catstruct.m' -a 'C:\Users\Public\Documents\MATLAB_Projects\KSCDemo\Multi-Window\KSC API\cavitycompKSC.m' -a 'C:\Users\Public\Documents\MATLAB_Projects\KSCDemo\Multi-Window\Static functions\darkenAxes.m' -a 'C:\Users\Public\Documents\MATLAB_Projects\KSCDemo\Multi-Window\Static functions\fftDataMag.m' -a 'C:\Users\Public\Documents\MATLAB_Projects\KSCDemo\Multi-Window\Static functions\findserial.m' -a C:\Users\Public\Documents\MATLAB_Projects\KSCDemo\Multi-Window\KSC_Control2.m -a 'C:\Users\Public\Documents\MATLAB_Projects\KSCDemo\Multi-Window\KSC API\openKSC.m' -a 'C:\Users\Public\Documents\MATLAB_Projects\KSCDemo\Multi-Window\Static functions\resonanceProperties.m' -a 'C:\Users\Public\Documents\MATLAB_Projects\KSCDemo\Multi-Window\Static functions\tts.m' 
+Compiler version: 6.1 (R2015b)
+
+Dependency analysis by REQUIREMENTS.
+
+[Warning: Adding path
+"C:\Users\Public\Documents\MATLAB_Projects\KSCDemo\Multi-Window" to Compiler
+path instance.] 
+[] 
+Parsing file "C:\Users\Public\Documents\MATLAB_Projects\KSCDemo\Multi-Window\KSCDemoGUI_main.m"
+	(Referenced from: "Compiler Command Line").
+Deleting 1 temporary MEX authorization files.
+Removing: 'C:\Users\emmanuel\AppData\Local\Temp\mathworks_tmp_05af89749_23288.auth'.
+Generating file "C:\Users\Public\Documents\MATLAB_Projects\KSCDemo\Multi-Window\KSCDemoM\for_testing\readme.txt".
+Packaging...
+Adding custom icon C:\Program Files\MATLAB\R2015b\toolbox\compiler\Resources\default_icon.ico to C:\Users\Public\Documents\MATLAB_Projects\KSCDemo\Multi-Window\KSCDemoM\for_testing\KSCDemoM.exe.
+Attempting to embed the CTF archive into the application C:\Users\Public\Documents\MATLAB_Projects\KSCDemo\Multi-Window\KSCDemoM\for_testing\KSCDemoM.exe.
+Finished embedding CTF archive. Deleting the external CTF archive.
+Creating the bundle...
+Web based installer created at C:\Users\Public\Documents\MATLAB_Projects\KSCDemo\Multi-Window\KSCDemoM\for_redistribution\KSCDemoMInstaller_web.exe.
+Self contained installer created at C:\Users\Public\Documents\MATLAB_Projects\KSCDemo\Multi-Window\KSCDemoM\for_redistribution\KSCDemoMInstaller_mcr.exe.
+Packaging complete.
+Elapsed packaging time was: 50 seconds.

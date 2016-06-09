@@ -95,7 +95,12 @@ set(h.startButton, 'String', 'Stop');
 set(h.busy, 'String', 'Ready for data acquisition..');
 h.led.BackgroundColor = [0.2 1 0.2];
 while (get(h.startButton,'value'))
-    KSCDemoBackend2(h);
+    try
+        KSCDemoBackend2(h);
+    catch E
+        disp(getReport(E));
+        return
+    end
 end
 set(h.startButton, 'String', 'Start');
 set(h.busy, 'String', '');
@@ -116,8 +121,8 @@ function figure1_CloseRequestFcn(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hint: delete(hObject) closes the figure
-rmappdata(0, 'h_a'); % clean up app data
-rmappdata(0, 'h_b');
+% rmappdata(0, 'h_a'); % clean up app data
+% rmappdata(0, 'h_b');
 delete(KSCDemoGUI_axes);
 delete(hObject);
 
